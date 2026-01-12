@@ -1,0 +1,351 @@
+<meta name='viewport' content='width=device-width, initial-scale=1'/><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Salman Dollar Exchanger</title>
+    <style>
+        /* বেসিক রিসেট */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* ব্যাকগ্রাউন্ড শেপ (নীল ডিজাইন) */
+        .bg-shape {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 35vh;
+            z-index: -1;
+            overflow: hidden;
+        }
+        
+        .bg-shape::before {
+            content: '';
+            position: absolute;
+            bottom: -50px;
+            left: -50px;
+            width: 80%;
+            height: 300px;
+            background: linear-gradient(135deg, #1565C0 0%, #42A5F5 100%);
+            transform: skewY(-15deg);
+            border-top-right-radius: 50px;
+            opacity: 0.9;
+        }
+
+        .bg-shape::after {
+            content: '';
+            position: absolute;
+            bottom: -80px;
+            left: -20px;
+            width: 60%;
+            height: 300px;
+            background: #0D47A1;
+            transform: skewY(-25deg);
+            z-index: -1;
+            border-top-right-radius: 40px;
+        }
+
+        /* মেইন কন্টেইনার */
+        .container {
+            padding: 20px;
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* লোগো সেকশন */
+        .logo {
+            margin-top: 20px;
+            margin-bottom: 25px;
+            width: 70px;
+            height: 70px;
+        }
+
+        /* টেক্সট ইনফো সেকশন */
+        .info-text {
+            font-size: 16px;
+            color: #000;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        .info-row {
+            margin-bottom: 10px;
+        }
+
+        .highlight-purple {
+            color: #800080; /* বেগুনি রঙ */
+            font-weight: 500;
+        }
+
+        .btc-id-label {
+            display: block;
+            margin-bottom: 2px;
+        }
+
+        .btc-address-text {
+            color: #800080;
+            word-break: break-all;
+            font-weight: 500;
+            font-size: 15px;
+        }
+
+        /* কপি বাটন এবং Others সেকশন */
+        .action-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 30px;
+        }
+
+        .copy-btn {
+            background: linear-gradient(to bottom, #ff3333, #cc0000);
+            border: 2px solid #fff;
+            color: white;
+            padding: 5px 25px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 14px;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+            outline: none;
+            transition: transform 0.1s;
+            text-transform: uppercase;
+        }
+
+        .copy-btn:active {
+            transform: scale(0.95);
+        }
+
+        /* QR কার্ড ডিজাইন */
+        .qr-card {
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .qr-card-header {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .qr-image-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        .qr-code {
+            width: 160px;
+            height: 160px;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .btc-center-logo {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 30px;
+            height: 30px;
+            background: white;
+            border-radius: 50%;
+            padding: 2px;
+        }
+
+        .qr-details {
+            margin-top: 15px;
+            text-align: left;
+            font-size: 10px;
+            color: #666;
+        }
+
+        .qr-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+        }
+
+        .qr-label {
+            color: #999;
+        }
+
+        .qr-value {
+            color: #000;
+            font-weight: 600;
+            text-align: right;
+            max-width: 60%;
+            word-break: break-all;
+        }
+
+        .warning-text {
+            font-size: 9px;
+            color: #999;
+            margin-top: 15px;
+            text-align: left;
+            line-height: 1.3;
+        }
+
+        /* ফুটার */
+        .footer {
+            text-align: center;
+            color: #ff6600;
+            font-weight: bold;
+            font-size: 16px;
+            padding: 10px;
+            text-transform: uppercase;
+            margin-top: auto;
+            background: rgba(255,255,255,0.8);
+        }
+
+        /* Desktop Adjustments */
+        @media (min-width: 768px) {
+            .container {
+                max-width: 800px;
+                flex-direction: row;
+                align-items: center;
+                justify-content: center;
+                gap: 50px;
+            }
+            .left-section {
+                flex: 1;
+            }
+            .right-section {
+                flex: 1;
+                max-width: 350px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Background Design -->
+    <div class="bg-shape"></div>
+
+    <div class="container">
+        <div class="left-section">
+            <!-- Logo SVG (Offline supported) -->
+            <div class="logo">
+                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="50" cy="50" r="40" stroke="#000" stroke-width="8" fill="none" stroke-dasharray="60 190" transform="rotate(-45 50 50)"/>
+                    <circle cx="50" cy="50" r="30" stroke="#2196F3" stroke-width="8" fill="none" stroke-dasharray="100 100" transform="rotate(135 50 50)"/>
+                    <circle cx="50" cy="50" r="15" fill="#2196F3"/>
+                </svg>
+            </div>
+
+            <!-- Text Content -->
+            <div class="info-text">
+                <div class="info-row">
+                    Currency: BTC
+                </div>
+                <div class="info-row">
+                    Account <span class="highlight-purple">Holder</span>: Address Only
+                </div>
+                <div class="info-row">
+                    <span class="btc-id-label">BTC ID:</span>
+                    <span class="btc-address-text" id="displayAddress">13wRRT7b1wyrixF8yRa1RnWPjoUycitL8W</span>
+                </div>
+            </div>
+
+            <!-- Copy Button Area -->
+            <div class="action-row">
+                <div class="info-row" style="margin: 0;">
+                    <span class="highlight-purple">Others</span>: N/A
+                </div>
+                <button class="copy-btn" onclick="copyAddress()">COPY</button>
+            </div>
+        </div>
+
+        <div class="right-section">
+            <!-- QR Card -->
+            <div class="qr-card">
+                <div class="qr-card-header">Deposit BTC to Binance</div>
+                
+                <div class="qr-image-container">
+                    <!-- QR Code Generated via API. For Offline, replace src with local image -->
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=bitcoin:13wRRT7b1wyrixF8yRa1RnWPjoUycitL8W" alt="QR Code" class="qr-code">
+                    <!-- Bitcoin Logo Overlay -->
+                    <svg class="btc-center-logo" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="32" cy="32" r="32" fill="#F7931A"/>
+                        <path d="M44.3 27.8c0.6-4-2.4-6.1-6.6-7.5l1.3-5.4-3.3-0.8-1.3 5.3c-0.9-0.2-1.7-0.4-2.6-0.6l1.3-5.3-3.3-0.8-1.3 5.4c-0.7-0.2-1.4-0.3-2-0.5l0 0-4.6-1.1-0.9 3.6s2.5 0.6 2.4 0.6c1.3 0.3 1.6 1.2 1.5 1.8l-1.5 6.1c0.1 0 0.2 0.1 0.3 0.1-0.1 0-0.2-0.1-0.3-0.1l-2.1 8.5c-0.2 0.4-0.6 1.1-1.6 0.8 0.1 0.1-2.4-0.6-2.4-0.6l-1.7 3.8 4.3 1.1c0.8 0.2 1.6 0.4 2.4 0.6l-1.4 5.5 3.3 0.8 1.4-5.4c0.9 0.2 1.7 0.4 2.6 0.6l-1.4 5.5 3.3 0.8 1.4-5.4c5.6 1.1 9.9 0.6 11.7-4.5 1.4-4.1-0.1-6.4-3-8 2.1-0.5 3.7-1.9 4.1-4.7zm-5.7 8c-0.8 3.1-6.1 1.4-7.8 1l1.4-5.6c1.7 0.4 7.2 1.2 6.4 4.6zm0.8-8.1c-0.7 2.8-5.2 1.4-6.7 1l1.3-5.2c1.4 0.4 6.1 1.1 5.4 4.2z" fill="#FFF"/>
+                    </svg>
+                </div>
+
+                <div class="qr-details">
+                    <div class="qr-row">
+                        <span class="qr-label">Network</span>
+                        <span class="qr-value">Bitcoin</span>
+                    </div>
+                    <div class="qr-row">
+                        <span class="qr-label">Wallet Address</span>
+                        <span class="qr-value">13wRRT7b1wyrixF8yRa1RnWPjoUycitL8W</span>
+                    </div>
+                </div>
+
+                <p class="warning-text">
+                    Don't send NFTs to this address.<br>
+                    Smart contract deposits are not supported with the exception of ETH via ERC20, BSC via BEP20, Arbitrum and Optimism networks.
+                </p>
+            </div>
+            
+            <div class="footer">SALMAN DOLLAR EXCHANGER</div>
+        </div>
+    </div>
+
+    <!-- Hidden Input for Copy Functionality -->
+    <textarea id="hidden-copy-input" style="position: absolute; left: -9999px;">13wRRT7b1wyrixF8yRa1RnWPjoUycitL8W</textarea>
+    
+    <script>
+        function copyAddress() {
+            var addressText = "13wRRT7b1wyrixF8yRa1RnWPjoUycitL8W";
+            
+            // Modern method
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(addressText).catch(function(err) {
+                    fallbackCopyText();
+                });
+            } else {
+                // Fallback method
+                fallbackCopyText();
+            }
+            
+            // কোনো নোটিফিকেশন বা Toast দেখানো হবে না
+        }
+
+        function fallbackCopyText() {
+            var textArea = document.getElementById("hidden-copy-input");
+            textArea.select();
+            textArea.setSelectionRange(0, 99999);
+
+            try {
+                document.execCommand('copy');
+            } catch (err) {
+                // Fail silently or handle error if needed
+            }
+        }
+    </script>
+</body>
+</html>
