@@ -1,5 +1,0 @@
-{
-  "name": "BTC Payment Gateway",
-  "description": "A high-fidelity replica of a BTC payment interface with QR code and copy functionality, designed for web, mobile, and Telegram mini apps.",
-  "requestFramePermissions": []
-}
